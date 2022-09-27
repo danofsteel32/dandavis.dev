@@ -1,0 +1,12 @@
+  <h1>Posts</h1>
+  <ul>
+#!
+for post in posts/*.upphtml; do
+  post_href="/posts/$(basename "${post%.upphtml}".html)"
+  title="$(./bin/title.py ${post})"
+#!
+    <li><a href=$post_href>$title</a></li>
+#!
+done
+#!
+  </ul>

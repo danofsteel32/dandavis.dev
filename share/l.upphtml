@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang=${LANG%%_*}>
+
+<head>
+#!
+case "${1}" in
+  ./index.upphtml)
+#!
+<title>Dan Davis</title>
+<meta name=description content='My personal website'>
+#!
+;;
+./civ4save.upphtml)
+#!
+<title>Civ4Save</title>
+<meta name=description content='Homepage for the civ4save project'>
+#!
+;;
+./resume.upphtml)
+#!
+<title>Resume</title>
+<meta name=description content='My resume'>
+#!
+;;
+./posts.upphtml)
+#!
+<title>Posts</title>
+<meta name=description content='Random thoughts'>
+#!
+;;
+./scripts.upphtml)
+#!
+<title>Scripts</title>
+<meta name=description content='Useful shell and python scripts'>
+#!
+;;
+esac
+#!
+
+<meta charset=${LANG##*.}>
+<meta name=viewport content='width=device-width, initial-scale=1'>
+
+<link rel=stylesheet
+href=/static/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' s.css | cut -d' ' -f1)>
+
+<link rel=apple-touch-icon sizes=180x180 href=/static/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/static/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/static/favicon-16x16.png>
+<link rel=manifest href=/site.webmanifest>
+
+</head>
+
+<body>
+
+<header>
+	<nav>
+		<ul>
+			<li><a href=/>Home</a></li>
+      <li><a href=/posts.html>Posts</a></li>
+			<li><a href=/resume.html>Resume</a></li>
+      <li><a href=/scripts.html>Scripts</a></li>
+      <li><a href=/contact.html#contact>Contact</a></li>
+		</ul>
+	</nav>
+</header>
+
+#!
+pp $1
+#!
+
+</body>
+
+<footer>
+  <hr>
+  <a href=mailto:dan@dandavis.dev>Email</a> |
+  <a href=https://github.com/danofsteel32>Github</a> |
+  <a href=https://git.sr.ht/~danofsteel32/dotfiles>Dotfiles</a> |
+  Built with <a href=https://mkws.sh>mkws</a> |
+  Hosted on <a href=https://www.linode.com>Linode</a>
+  <br>
+  <small>&copy; Copyright 2022 Dan Davis</small>
+</footer>
+
+</html>

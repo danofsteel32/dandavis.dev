@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url>
+	<loc>https://dandavis.dev/civ4save.html</loc>
+	<lastmod>2022-09-27T08:28:54Z</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://dandavis.dev/index.html</loc>
+	<lastmod>2022-09-27T08:28:54Z</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://dandavis.dev/posts.html</loc>
+	<lastmod>2022-09-27T08:28:55Z</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://dandavis.dev/resume.html</loc>
+	<lastmod>2022-09-27T08:28:55Z</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://dandavis.dev/scripts.html</loc>
+	<lastmod>2022-09-27T08:28:55Z</lastmod>
+	<priority>1.0</priority>
+</url>
+</urlset>

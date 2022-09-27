@@ -1,0 +1,48 @@
+<section>
+  <h1>About</h1>
+  <p>I am a software developer based out of Columbus OH.</p>
+  <h3>Programming Interests/Skills</h3>
+  <ul>
+    <li>Linux</li>
+    <li>Python</li>
+    <li>Golang</li>
+    <li>SQL</li>
+    <li>Shell</li>
+    <li>Industrial IoT</li>
+    <li>Machine Vision</li>
+  </ul>
+  <h3>Non-Programming Interests</h3>
+  <ul>
+    <li>Standup Comedy</li>
+    <li>Gardening</li>
+    <li>Weightlifting</li>
+  </ul>
+</section>
+
+<section>
+  <h1>Projects</h1>
+  <ul>
+    <li><a href=https://github.com/danofsteel32/civ4save>civ4save</a></li>
+    <p>A library and command line tool for parsing the save files of my favorite
+    game <a href=https://civilization.com/civilization-4>Civilization IV</a>.</p>
+
+    <li><a href=https://github.com/danofsteel32/gingr>gingr</a> Unofficial API for <a href=https://www.gingrapp.com>gingrapp.com</a></li>
+    <p>I used it to automate many tasks for a client and to enable automatic tagging of doggo photos
+    using a computer vision model. I wrote more about this <a href=/posts/my-827K-image-dog-dataset.html>here</a>.</p>
+
+    <li><a href=https://github.com/danofsteel32/garage>garage</a></li>
+    <p>Using an <a href=https://www.sparkfun.com/products/15569>ultrasonic distance sensor</a> hooked up to a raspberry pi,
+    measure whether my garage is open and display it <a href=/garage/status>here</a>.</p>
+
+    <li><a href=https://github.com/danofsteel32/lift-calc>lift-calc</a></li>
+    <p>An easy to use command line tool for generating workout programs following the
+    <a href=https://startingstrength.com/get-started/programs>Starting Strength</a> novice-level or
+    <a href=https://stronglifts.com/5x5/>Strong Lifts 5x5</a> programs. I coach a few people and
+    this saves me a bunch of time preparing workouts.</p>
+  </ul>
+</section>
+
+<section id=contact>
+  <h1>Contact</h1>
+  <p>Please feel free to email me with any thoughts, comments or inquiries.</p>
+</section>
