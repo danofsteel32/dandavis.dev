@@ -1,0 +1,139 @@
+  <h1>New VPS Checklist</h1>
+  <p>
+    I wrote this guide to have something to point to people who ask me about getting
+    their first VPS. For picking a VPS provider I've used:
+  </p>
+  <ul>
+    <li><a href=https://www.linode.com>Linode</a></li>
+    <li><a href=https://www.digitalocean.com></a>Digital Ocean</li>
+    <li><a href=https://www.vultr.com>Vultr</a></li>
+  </ul>
+  <p>
+    In my experience there's very little difference between them and I would pick
+    whichever one I could get the most free credits for. For picking a distro I would
+    recommend Fedora or Debian/Ubuntu.
+  </p>
+
+  <h3>Checklist</h3>
+  <label>
+    <input type="checkbox" /> Change root password
+  </label>
+  <pre>
+  <code>
+passwd
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Generate fresh sshd host keys
+  </label>
+  <pre>
+  <code>
+ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' -b 4096
+ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' -b 521
+ssh-keygen -q -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Create admin user
+  </label>
+  <pre>
+  <code>
+adduser <your name>
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Add admin user to wheel group and uncomment in sudoers file
+  </label>
+  <pre>
+  <code>
+usermod -aG wheel <your name>
+visudo
+## uncomment this line (remove leading # if it's there)
+#%wheel  ALL=(ALL)       ALL
+  </code>
+  </pre>
+
+  <p>Now Login to the admin user</p>
+  <pre>
+  <code>
+su <your name>
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> SSH key added to admin's authorized_keys file
+  </label>
+  <pre>
+  <code>
+mkdir ~/.ssh && chmod 0700 ~/.ssh
+vi ~/.ssh/authorized_keys
+# paste in pub key (or use nano if you don't like vi)
+chmod 0600 ~/.ssh/authorized_keys
+  </code>
+  </pre>
+
+
+  <label>
+    <input type="checkbox" /> Disable root login and password logins via ssh
+  </label>
+  <pre>
+  <code>
+sudo vi /etc/ssh/sshd_config
+# change this line from
+PasswordAuthentication yes
+# to
+PasswordAuthentication no
+
+# change this line from
+PermitRootLogin prohibit-password
+# to
+PermitRootLogin no
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Set hostname
+  </label>
+  <pre>
+  <code>
+sudo hostnamectl hostname <new-hostname>
+  </code>
+  </pre>
+
+
+  <label>
+    <input type="checkbox" /> Setup firewall
+  </label>
+  <pre>
+  <code>
+# if on Debian/Ubuntu install firewalld first
+sudo apt install firewalld
+
+sudo firewall-cmd --permanent --add-service {ssh,http,https}
+sudo firewall-cmd --reload
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Run system updates
+  </label>
+  <pre>
+  <code>
+# Fedora
+$ sudo dnf update
+# Debian
+$ sudo apt update && sudo apt upgrade
+  </code>
+  </pre>
+
+  <label>
+    <input type="checkbox" /> Reboot
+  </label>
+  <pre>
+  <code>
+sudo reboot
+  </code>
+  </pre>

@@ -2,3 +2,4 @@
 
 
 find . -name '*.html' -exec rm -f {} +
+rm ./scripts/*

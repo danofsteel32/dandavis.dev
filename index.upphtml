@@ -27,13 +27,16 @@
     game <a href=https://civilization.com/civilization-4>Civilization IV</a>.
     Available on PyPI! <code>python -m pip install civ4save</code></p>
 
-    <li><a href=https://github.com/danofsteel32/gingr>gingr</a> Unofficial API for <a href=https://www.gingrapp.com>gingrapp.com</a></li>
-    <p>I used it to automate many tasks for a client and to enable automatic tagging of doggo photos
-    using a computer vision model. I wrote more about this <a href=/posts/my-827K-image-dog-dataset.html>here</a>.</p>
+    <li><a href=https://github.com/danofsteel32/gingr>gingr</a>
+      Unofficial API for <a href=https://www.gingrapp.com>gingrapp.com</a></li>
+    <p>I used it to automate many tasks for a client and to enable automatic
+      tagging of doggo photos using a computer vision model. I wrote more about
+      this <a href=/posts/my-827K-image-dog-dataset.html>here</a>.</p>
 
     <li><a href=https://github.com/danofsteel32/garage>garage</a></li>
-    <p>Using an <a href=https://www.sparkfun.com/products/15569>ultrasonic distance sensor</a> hooked up to a raspberry pi,
-    measure whether my garage is open and display it <a href=/garage/status>here</a>.</p>
+    <p>Using an <a href=https://www.sparkfun.com/products/15569>ultrasonic distance sensor</a>
+      hooked up to a raspberry pi,
+      measure whether my garage is open and display it <a href=/garage/status>here</a>.</p>
 
     <li><a href=https://github.com/danofsteel32/lift-calc>lift-calc</a></li>
     <p>An easy to use command line tool for generating workout programs following the

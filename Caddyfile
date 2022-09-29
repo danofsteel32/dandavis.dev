@@ -1,0 +1,7 @@
+localhost {
+    root * .
+    file_server
+    route {
+        header /scripts/* +Content-Type "text/plain; text/html"
+    }
+}

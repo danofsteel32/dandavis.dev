@@ -1,0 +1,233 @@
+  <h1>Quart, HTMX, and Server Sent Events</h1>
+  <p>
+    A small guide to pushing updates to web clients with
+    <a href=https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events>Server Sent Events (SSE)</a>
+    using the python web framework <a href=https://pgjones.gitlab.io/quart/>Quart</a>
+    and <a href=https://htmx.org/>htmx</a> javascript library.
+    I quite like the htmx/SSE combo as it greatly simplifies creating dynamically
+    updateing webpages. Traditionally you would have to write some javascript to poll
+    the server for updates, and the updates would be returned as a JSON payload.
+    Then you'd write some more javascript to update the DOM with the values in that JSON.
+    With htmx and SSE however, the server sends a complete html fragment and it
+    automatically replaces the old DOM content with the updated one. No polling
+    or javascript required. 
+  </p>
+  <p>
+    I used this stack to build a web dashboard to display whether my
+    <a href=/garage/status>garage</a> was open or closed.
+    A motion sensor connected to a Raspberry Pi Zero Wifi takes a reading every few
+    seconds and sends the reading to a Quart app running on this VPS. The Quart
+    app writes the reading to a SQLite database and broadcasts the update
+    to any currently connected clients.
+  </p>
+
+  <h3>Server Side</h3>
+  <pre>
+  <code>
+# server.py
+import asyncio
+from dataclasses import dataclass
+from datetime import datetime
+
+from quart import Quart, abort, jsonify, make_response, render_template, request
+from quart.helpers import stream_with_context
+
+app = Quart(__name__)
+app.clients = set()
+
+
+DIST_CUTOFF = 70  # inches
+
+
+@dataclass
+class Status:
+    """Represents the state of the garage for rendering in template."""
+
+    dist: float
+    timestamp: datetime
+
+    @property
+    def color(self) -> str:
+        """The reading will be displayed in a diff. color depending on value"""
+        if self.dist > DIST_CUTOFF:
+            return "green"
+        return "red"
+
+    @property
+    def state(self) -> str:
+        if self.dist > DIST_CUTOFF:
+            return "Closed"
+        return "OPEN!"
+
+    @property
+    def sensor_down(self) -> bool:
+        """If no updates in last 10 seconds assume the sensor is down."""
+        status_age = datetime.now() - self.timestamp
+        if status_age.seconds > 10:
+            return True
+        return False
+
+    @classmethod
+    def new(cls, dist: float) -> "Status":
+        if not isinstance(dist, float):
+            raise ValueError(f"dist must be of type float, not {type(dist)}")
+        return cls(dist, datetime.now())
+
+
+@dataclass
+class ServerSentEvent:
+    data: str
+    event: str | None = None
+    id: int | None = None
+    retry: int | None = None
+
+    def encode(self) -> bytes:
+        # remove newlines in case data is a rendered template
+        self.data = self.data.replace("\n", "")
+        message = f"data: {self.data}"
+        if self.event is not None:
+            message = f"{message}\nevent: {self.event}"
+        if self.id is not None:
+            message = f"{message}\nid: {self.id}"
+        if self.retry is not None:
+            message = f"{message}\nretry: {self.retry}"
+        message = f"{message}\r\n\r\n"
+        return message.encode("utf-8")
+
+
+@app.route("/garage/status", methods=["POST"])
+async def status():
+    data = await request.get_json()
+
+    try:
+        status = Status.new(data["message"])
+    except ValueError:
+        return jsonify({"message": "message field not provided or incorrect type"}), 400
+
+    for queue in app.clients:
+        if queue.full():
+            app.clients.remove(queue)
+            app.logger.info("Removing Client because queue full")
+            continue
+        await queue.put(data["message"])
+    return jsonify(True)
+
+
+@app.route("/garage/sse")
+async def sse():
+    """Broadcasts any events put into the clients queues by the status() function."""
+
+    if "text/event-stream" not in request.accept_mimetypes:
+        abort(400)
+
+    queue: asyncio.Queue[float] = asyncio.Queue(10)
+    app.clients.add(queue)
+    app.logger.info("Client connected")
+
+    @stream_with_context
+    async def send_events():
+        while True:
+            try:
+                data = await queue.get()
+                status = Status.new(data)
+                html = await render_template("status_partial.jinja", status=status)
+                event = ServerSentEvent(html, event="StatusUpdate")
+                yield event.encode()
+            except asyncio.CancelledError:
+                app.clients.remove(queue)
+                app.logger.info("Client disconnected")
+                break
+
+    response = await make_response(
+        send_events(),
+        {
+            "Content-Type": "text/event-stream",
+            "Cache-Control": "no-cache",
+            "Transfer-Encoding": "chunked",
+        },
+    )
+    response.timeout = None
+    return response
+  </code>
+  </pre>
+
+  <h3>Templates</h3>
+  <p>
+    This script will download htmx and the htmx-sse extension. Afterwards you can move
+    to your static files directory. (<code>/static/js</code> in my case)
+  </p>
+
+  <p>The main template <code>dashboard.html</code></p>
+  <pre>
+  <code>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Garage</title>
+</head>
+<body>
+  <div hx-ext="sse" sse-connect="/garage/sse">
+  {% include 'status_partial.jinja' %}
+  </div>
+  <script src="{{ url_for('static', filename='js/htmx/htmx.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/htmx/ext/sse.js') }}"></script>
+</body>
+</html>
+  </code>
+  </pre>
+
+  <p>The <code>status_partial.jinja</code> template.</p>
+  <pre>
+  <code>
+<div id="garage-status" sse-swap="StatusUpdate">
+{% if status.sensor_down %}
+    <p><span style="color:red;">WARNING!</span> sensor appears to be down</p>
+{% endif %}
+    <p>Last Reading: {{ status.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+    <p><span style="color:{{ status.color }};"> {{ status.state }} </span> {{ status.dist }} inches</p>
+</div>
+  </code>
+  </pre>
+
+  <pre>
+  <code>
+#!/usr/bin/env bash
+
+htmx_version="1.8.0"  # latest as of 2022-09
+htmx_extensions=("sse")  # add more extensions if desired
+
+mkdir -p htmx/ext
+wget -P htmx/ "https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.js"
+wget -P htmx/ "https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.min.js"
+
+for ext in "${htmx_extensions[@]}"; do
+    wget -P htmx/ext/ "https://unpkg.com/htmx.org@${htmx_version}/dist/ext/${ext}.js"
+done;
+  </code>
+  </pre>
+
+  <h3>Testing</h3>
+  <pre>
+  <code>
+# test_sse.py
+@pytest.mark.asyncio
+async def test_sse(app):
+    client = app.test_client()
+    accept_headers = {
+        "Content-Type": "text/event-stream",
+        "Accept": "text/event-stream, text/html",
+        "Keep-Alive": "timeout=2, max=2",
+    }
+    post_data = {"message": 500.0}
+    async with client.request("/garage/sse", headers=accept_headers) as connection:
+        await client.post("/garage/status", json=post_data)
+        data = await connection.receive()
+        assert "500.0" in data.decode("utf-8")
+        await connection.disconnect()
+  </code>
+  </pre>
+  <p>
+    Notice how you have to open a connection to the sse endpoint before posting data to it.
+  </p>

@@ -2,6 +2,12 @@
 
 The source repo for my personal website.
 
+Allow to run as non root
+
+`sudo setcap cap_net_bind_service=+ep ./bin/caddy`
+
+`./bin/caddy run --config caddy.json`
+
 ### Layout
 ```
 dandavis.dev/

@@ -1,0 +1,7 @@
+<h1>Trying VSCode as a Nvim User</h1>
+<strong>TODO</strong>
+<ul>
+  <li>Cant turn off auto lint/complete. I only want this when I say i want it</li>
+  <li>The default keybindings are a step back from vi. Better discoverability but otherwise awful</li>
+  <li>I'd have to spend a week getting the keybindings just right</li>
+</ul>

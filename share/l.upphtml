@@ -8,68 +8,90 @@ case "${1}" in
 #!
 <title>Dan Davis</title>
 <meta name=description content='My personal website'>
-#!
-;;
-./civ4save.upphtml)
-#!
-<title>Civ4Save</title>
-<meta name=description content='Homepage for the civ4save project'>
+<meta name=keywords content='Blog, Programming, Linux, Python'>
 #!
 ;;
 ./resume.upphtml)
 #!
 <title>Resume</title>
 <meta name=description content='My resume'>
+<meta name=keywords content='Resume, Programmer'>
 #!
 ;;
 ./posts.upphtml)
 #!
 <title>Posts</title>
-<meta name=description content='Random thoughts'>
+<meta name=description content='Random thoughts and writings'>
+<meta name=keywords content='Blog, Posts'>
 #!
 ;;
 ./scripts.upphtml)
 #!
 <title>Scripts</title>
 <meta name=description content='Useful shell and python scripts'>
+<meta name=keywords content='Scripts, Shell, Python'>
+#!
+;;
+./posts/my-827K-dog-image-dataset.upphtml)
+#!
+<title>My 827K Dog Image Dataset</title>
+<meta name=description content='Story about creating a computer vision system for dog classification'>
+<meta name=keywords content='Computer Vision, ML, Dog, Image, Dataset, Pytorch, Python'>
+#!
+;;
+./posts/quart-htmx-sse.upphtml)
+#!
+<title>Quart, HTMX, and Server Sent Events</title>
+<meta name=description content='A tutorial about using quart and htmx-sse for server side updates'>
+<meta name=keywords content='Quart, Python, htmx, sse, server-side'>
+#!
+;;
+./posts/clifton-gorge-flooding.upphtml)
+<title>Clifton Gorge Flooding</title>
+<meta name=description content='Photos of flooding at Clifton Gorge Nature Preserve'>
+<meta name=keywords content='Flooding, Nature, Photos, Flooding, Ohio, Clifton Gorge'>
+#!
+;;
+./posts/my-most-used-shell-script.upphtml)
+<title>My Most Used Shell Script</title>
+<meta name=description content='The run.sh shell script for python projects'>
+<meta name=keywords content='Python, Shell, script, project, run.sh'>
 #!
 ;;
 esac
 #!
 
 <meta charset=${LANG##*.}>
+<meta name=author content='Dan Davis'>
 <meta name=viewport content='width=device-width, initial-scale=1'>
 
 <link rel=stylesheet
-href=/static/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' s.css | cut -d' ' -f1)>
+      href=/static/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' static/s.css | cut -d' ' -f1)>
 
 <link rel=apple-touch-icon sizes=180x180 href=/static/apple-touch-icon.png>
 <link rel=icon type=image/png sizes=32x32 href=/static/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=/static/favicon-16x16.png>
 <link rel=manifest href=/site.webmanifest>
-<script type=module src=/static/js/html-include-element.js></script>
 
 </head>
 
 <body>
 
 <header>
-	<nav>
-		<ul>
-			<li><a href=/>Home</a></li>
+  <nav>
+    <ul>
+      <li><a href=/>Home</a></li>
       <li><a href=/posts.html>Posts</a></li>
-			<li><a href=/resume.html>Resume</a></li>
+      <li><a href=/resume.html>Resume</a></li>
       <li><a href=/scripts.html>Scripts</a></li>
-      <li><a href=/contact.html#contact>Contact</a></li>
-		</ul>
-	</nav>
+      <li><a href=/#contact>Contact</a></li>
+    </ul>
+  </nav>
 </header>
 
 #!
 pp $1
 #!
-
-</body>
 
 <footer>
   <hr>
@@ -82,4 +104,5 @@ pp $1
   <small>&copy; Copyright 2022 Dan Davis</small>
 </footer>
 
+</body>
 </html>

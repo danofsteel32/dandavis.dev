@@ -1,12 +1,10 @@
   <h1>Posts</h1>
   <ul>
-#!
-for post in posts/*.upphtml; do
-  post_href="/posts/$(basename "${post%.upphtml}".html)"
-  title="$(./bin/title.py ${post})"
-#!
-    <li><a href=$post_href>$title</a></li>
-#!
-done
-#!
+    <li><a href=/posts/industrial-machine-vision-lessons-learned>Industrial Machine Vision: Lessons Learned</a></li>
+    <li><a href=/posts/building-aravis-on-fedora.html>Bulding Aravis on Fedora</a></li>
+    <li><a href=/posts/new-vps-checklist.html>New VPS Checklist</a></li>
+    <li><a href=/posts/my-most-used-shell-script.html>My Most Used Shell Script</a></li>
+    <li><a href=/posts/quart-htmx-see.html>Quart, HTMX, and Server Sent Events</a></li>
+    <li><a href=/posts/my-827K-dog-image-dataset.html>My 827K Dog Image Dataset</a></li>
+    <li><a href=/posts/clifton-gorge-flooding.html>Clifton Gorge Flooding 2017-11-06</a></li>
   </ul>

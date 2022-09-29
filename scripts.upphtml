@@ -1,3 +1,12 @@
   <h1>Scripts</h1>
-  <code>pyboilerplate.sh</code>
-  <html-include src='https://git.sr.ht/~danofsteel32/dotfiles/blob/main/.local/bin/pyboilerplate.sh' mode=cors></html-include>
+  <p>Just a collection of short scripts I have found useful.</p>
+  <ul>
+#!
+for script in scripts/*; do
+  script_name="$(basename ${script})" 
+#!
+    <li><a href=${script}>${script_name}</a></li>
+#!
+done
+#!
+  </ul>
