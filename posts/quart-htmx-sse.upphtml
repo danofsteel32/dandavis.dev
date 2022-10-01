@@ -41,36 +41,36 @@ DIST_CUTOFF = 70  # inches
 
 @dataclass
 class Status:
-    """Represents the state of the garage for rendering in template."""
+    \"\"\"Represents the state of the garage for rendering in template.\"\"\"
 
     dist: float
     timestamp: datetime
 
     @property
     def color(self) -> str:
-        """The reading will be displayed in a diff. color depending on value"""
+        \"\"\"The reading will be displayed in a diff. color depending on value\"\"\"
         if self.dist > DIST_CUTOFF:
-            return "green"
-        return "red"
+            return \"green\"
+        return \"red\"
 
     @property
     def state(self) -> str:
         if self.dist > DIST_CUTOFF:
-            return "Closed"
-        return "OPEN!"
+            return \"Closed\"
+        return \"OPEN!\"
 
     @property
     def sensor_down(self) -> bool:
-        """If no updates in last 10 seconds assume the sensor is down."""
+        \"\"\"If no updates in last 10 seconds assume the sensor is down.\"\"\"
         status_age = datetime.now() - self.timestamp
         if status_age.seconds > 10:
             return True
         return False
 
     @classmethod
-    def new(cls, dist: float) -> "Status":
+    def new(cls, dist: float) -> \"Status\":
         if not isinstance(dist, float):
-            raise ValueError(f"dist must be of type float, not {type(dist)}")
+            raise ValueError(f\"dist must be of type float, not {type(dist)}\")
         return cls(dist, datetime.now())
 
 
@@ -83,46 +83,46 @@ class ServerSentEvent:
 
     def encode(self) -> bytes:
         # remove newlines in case data is a rendered template
-        self.data = self.data.replace("\n", "")
-        message = f"data: {self.data}"
+        self.data = self.data.replace(\"\n\", \"\")
+        message = f\"data: {self.data}\"
         if self.event is not None:
-            message = f"{message}\nevent: {self.event}"
+            message = f\"{message}\nevent: {self.event}\"
         if self.id is not None:
-            message = f"{message}\nid: {self.id}"
+            message = f\"{message}\nid: {self.id}\"
         if self.retry is not None:
-            message = f"{message}\nretry: {self.retry}"
-        message = f"{message}\r\n\r\n"
-        return message.encode("utf-8")
+            message = f\"{message}\nretry: {self.retry}\"
+        message = f\"{message}\r\n\r\n\"
+        return message.encode(\"utf-8\")
 
 
-@app.route("/garage/status", methods=["POST"])
+@app.route(\"/garage/status\", methods=[\"POST\"])
 async def status():
     data = await request.get_json()
 
     try:
-        status = Status.new(data["message"])
+        status = Status.new(data[\"message\"])
     except ValueError:
-        return jsonify({"message": "message field not provided or incorrect type"}), 400
+        return jsonify({\"message\": \"message field not provided or incorrect type\"}), 400
 
     for queue in app.clients:
         if queue.full():
             app.clients.remove(queue)
-            app.logger.info("Removing Client because queue full")
+            app.logger.info(\"Removing Client because queue full\")
             continue
-        await queue.put(data["message"])
+        await queue.put(data[\"message\"])
     return jsonify(True)
 
 
-@app.route("/garage/sse")
+@app.route(\"/garage/sse\")
 async def sse():
-    """Broadcasts any events put into the clients queues by the status() function."""
+    \"\"\"Broadcasts any events put into the clients queues by the status() function.\"\"\"
 
-    if "text/event-stream" not in request.accept_mimetypes:
+    if \"text/event-stream\" not in request.accept_mimetypes:
         abort(400)
 
     queue: asyncio.Queue[float] = asyncio.Queue(10)
     app.clients.add(queue)
-    app.logger.info("Client connected")
+    app.logger.info(\"Client connected\")
 
     @stream_with_context
     async def send_events():
@@ -130,20 +130,20 @@ async def sse():
             try:
                 data = await queue.get()
                 status = Status.new(data)
-                html = await render_template("status_partial.jinja", status=status)
-                event = ServerSentEvent(html, event="StatusUpdate")
+                html = await render_template(\"status_partial.jinja\", status=status)
+                event = ServerSentEvent(html, event=\"StatusUpdate\")
                 yield event.encode()
             except asyncio.CancelledError:
                 app.clients.remove(queue)
-                app.logger.info("Client disconnected")
+                app.logger.info(\"Client disconnected\")
                 break
 
     response = await make_response(
         send_events(),
         {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "Transfer-Encoding": "chunked",
+            \"Content-Type\": \"text/event-stream\",
+            \"Cache-Control\": \"no-cache\",
+            \"Transfer-Encoding\": \"chunked\",
         },
     )
     response.timeout = None
@@ -161,18 +161,18 @@ async def sse():
   <pre>
   <code>
 <!doctype html>
-<html lang="en">
+<html lang=\"en\">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <title>Garage</title>
 </head>
 <body>
-  <div hx-ext="sse" sse-connect="/garage/sse">
+  <div hx-ext=\"sse\" sse-connect=\"/garage/sse\">
   {% include 'status_partial.jinja' %}
   </div>
-  <script src="{{ url_for('static', filename='js/htmx/htmx.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/htmx/ext/sse.js') }}"></script>
+  <script src=\"{{ url_for('static', filename='js/htmx/htmx.js') }}\"></script>
+  <script src=\"{{ url_for('static', filename='js/htmx/ext/sse.js') }}\"></script>
 </body>
 </html>
   </code>
@@ -181,12 +181,12 @@ async def sse():
   <p>The <code>status_partial.jinja</code> template.</p>
   <pre>
   <code>
-<div id="garage-status" sse-swap="StatusUpdate">
+<div id=\"garage-status\" sse-swap=\"StatusUpdate\">
 {% if status.sensor_down %}
-    <p><span style="color:red;">WARNING!</span> sensor appears to be down</p>
+    <p><span style=\"color:red;\">WARNING!</span> sensor appears to be down</p>
 {% endif %}
-    <p>Last Reading: {{ status.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</p>
-    <p><span style="color:{{ status.color }};"> {{ status.state }} </span> {{ status.dist }} inches</p>
+    <p>Last Reading: {{ status.timestamp.strftime(\"%Y-%m-%d %H:%M:%S\") }}</p>
+    <p><span style=\"color:{{ status.color }};\"> {{ status.state }} </span> {{ status.dist }} inches</p>
 </div>
   </code>
   </pre>
@@ -195,15 +195,15 @@ async def sse():
   <code>
 #!/usr/bin/env bash
 
-htmx_version="1.8.0"  # latest as of 2022-09
-htmx_extensions=("sse")  # add more extensions if desired
+htmx_version=\"1.8.0\"  # latest as of 2022-09
+htmx_extensions=(\"sse\")  # add more extensions if desired
 
 mkdir -p htmx/ext
-wget -P htmx/ "https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.js"
-wget -P htmx/ "https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.min.js"
+wget -P htmx/ \"https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.js\"
+wget -P htmx/ \"https://unpkg.com/htmx.org@${htmx_version}/dist/htmx.min.js\"
 
-for ext in "${htmx_extensions[@]}"; do
-    wget -P htmx/ext/ "https://unpkg.com/htmx.org@${htmx_version}/dist/ext/${ext}.js"
+for ext in \"${htmx_extensions[@]}\"; do
+    wget -P htmx/ext/ \"https://unpkg.com/htmx.org@${htmx_version}/dist/ext/${ext}.js\"
 done;
   </code>
   </pre>
@@ -216,15 +216,15 @@ done;
 async def test_sse(app):
     client = app.test_client()
     accept_headers = {
-        "Content-Type": "text/event-stream",
-        "Accept": "text/event-stream, text/html",
-        "Keep-Alive": "timeout=2, max=2",
+        \"Content-Type\": \"text/event-stream\",
+        \"Accept\": \"text/event-stream, text/html\",
+        \"Keep-Alive\": \"timeout=2, max=2\",
     }
-    post_data = {"message": 500.0}
-    async with client.request("/garage/sse", headers=accept_headers) as connection:
-        await client.post("/garage/status", json=post_data)
+    post_data = {\"message\": 500.0}
+    async with client.request(\"/garage/sse\", headers=accept_headers) as connection:
+        await client.post(\"/garage/status\", json=post_data)
         data = await connection.receive()
-        assert "500.0" in data.decode("utf-8")
+        assert \"500.0\" in data.decode(\"utf-8\")
         await connection.disconnect()
   </code>
   </pre>

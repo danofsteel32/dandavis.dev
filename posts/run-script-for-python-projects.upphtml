@@ -5,7 +5,7 @@
     below is the base I use for all of my python projects. I even wrote another
     <a href=../scripts/pyboilerplate.sh>shell script</a> I call <code>pyboilerplate.sh</code>
     that creates the a new project directory containing this script, pyproject.toml, setup.py,
-    src and test directories, readme, license file, etc.
+    src/ and test/ directories, README, license file, etc.
   </p>
   <pre>
   <code>

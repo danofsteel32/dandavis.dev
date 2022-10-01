@@ -6,56 +6,72 @@
 case "${1}" in
   ./index.upphtml)
 #!
+
 <title>Dan Davis</title>
 <meta name=description content='My personal website'>
 <meta name=keywords content='Blog, Programming, Linux, Python'>
+
 #!
 ;;
 ./resume.upphtml)
 #!
+
 <title>Resume</title>
 <meta name=description content='My resume'>
 <meta name=keywords content='Resume, Programmer'>
+
 #!
 ;;
 ./posts.upphtml)
 #!
+
 <title>Posts</title>
 <meta name=description content='Random thoughts and writings'>
 <meta name=keywords content='Blog, Posts'>
+
 #!
 ;;
 ./scripts.upphtml)
 #!
+
 <title>Scripts</title>
 <meta name=description content='Useful shell and python scripts'>
 <meta name=keywords content='Scripts, Shell, Python'>
+
 #!
 ;;
 ./posts/my-827K-dog-image-dataset.upphtml)
 #!
+
 <title>My 827K Dog Image Dataset</title>
 <meta name=description content='Story about creating a computer vision system for dog classification'>
 <meta name=keywords content='Computer Vision, ML, Dog, Image, Dataset, Pytorch, Python'>
+
 #!
 ;;
 ./posts/quart-htmx-sse.upphtml)
 #!
+
 <title>Quart, HTMX, and Server Sent Events</title>
 <meta name=description content='A tutorial about using quart and htmx-sse for server side updates'>
 <meta name=keywords content='Quart, Python, htmx, sse, server-side'>
+
 #!
 ;;
 ./posts/clifton-gorge-flooding.upphtml)
+#!
 <title>Clifton Gorge Flooding</title>
 <meta name=description content='Photos of flooding at Clifton Gorge Nature Preserve'>
 <meta name=keywords content='Flooding, Nature, Photos, Flooding, Ohio, Clifton Gorge'>
+
 #!
 ;;
 ./posts/my-most-used-shell-script.upphtml)
+#!
 <title>My Most Used Shell Script</title>
 <meta name=description content='The run.sh shell script for python projects'>
 <meta name=keywords content='Python, Shell, script, project, run.sh'>
+
 #!
 ;;
 esac
