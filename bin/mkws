@@ -23,7 +23,7 @@ fi
 
 # echo "Making s.css"
 # pp "$share"/s.uppcss "$1" > ./static/s.css
-cp "$share"/s.uppcss ./static/s.css
+cp "$share"/s.uppcss ./static/styles/s.css
 
 # t = template
 for t in "$src"/*.upphtml

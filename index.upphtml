@@ -24,8 +24,8 @@
   <ul>
     <li><a href=https://github.com/danofsteel32/civ4save>civ4save</a></li>
     <p>A library and command line tool for parsing the save files of my favorite
-    game <a href=https://civilization.com/civilization-4>Civilization IV</a>.
-    Available on PyPI! <code>python -m pip install civ4save</code></p>
+      game <a href=https://civilization.com/civilization-4>Civilization IV</a>.
+      Available on PyPI! <code>python -m pip install civ4save</code></p>
 
     <li><a href=https://github.com/danofsteel32/gingr>gingr</a>
       Unofficial API for <a href=https://www.gingrapp.com>gingrapp.com</a></li>
@@ -40,18 +40,9 @@
 
     <li><a href=https://github.com/danofsteel32/lift-calc>lift-calc</a></li>
     <p>An easy to use command line tool for generating workout programs following the
-    <a href=https://startingstrength.com/get-started/programs>Starting Strength</a> novice-level or
-    <a href=https://stronglifts.com/5x5/>Strong Lifts 5x5</a> programs. I coach a few people and
-    this saves me a bunch of time preparing workouts.</p>
-
-    <li>Unamed Idea</li>
-    <p>I want something that's sort of like a combo between a group chat and a forum.
-    Group members can post texts,
-    files (images, pdfs, epubs, source code),
-    links (normal sites, youtube, tweets),
-    and they will automatically be tagged and indexed. Then users can post items that are
-    children of any other item.
-    </p>
+      <a href=https://startingstrength.com/get-started/programs>Starting Strength</a>
+      novice-level or <a href=https://stronglifts.com/5x5/>Strong Lifts 5x5</a> programs.
+      I coach a few people and this saves me a bunch of time preparing workouts.</p>
   </ul>
 </section>
 

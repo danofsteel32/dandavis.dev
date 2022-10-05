@@ -53,24 +53,35 @@ case "${1}" in
 #!
 
 <title>Quart, HTMX, and Server Sent Events</title>
-<meta name=description content='A tutorial about using quart and htmx-sse for server side updates'>
+<meta name=description content='A guide to using quart, htmx, and sse for server side updates'>
 <meta name=keywords content='Quart, Python, htmx, sse, server-side'>
 
 #!
 ;;
 ./posts/clifton-gorge-flooding.upphtml)
 #!
+
 <title>Clifton Gorge Flooding</title>
 <meta name=description content='Photos of flooding at Clifton Gorge Nature Preserve'>
 <meta name=keywords content='Flooding, Nature, Photos, Flooding, Ohio, Clifton Gorge'>
 
 #!
 ;;
-./posts/my-most-used-shell-script.upphtml)
+./posts/run-script-for-python-projects.upphtml)
 #!
-<title>My Most Used Shell Script</title>
+
+<title>run.sh for Python Projects</title>
 <meta name=description content='The run.sh shell script for python projects'>
 <meta name=keywords content='Python, Shell, script, project, run.sh'>
+
+#!
+;;
+./posts/new-vps-checklist.upphtml)
+#!
+
+<title>New VPS Checklist</title>
+<meta name=description content='A checklist for configuring a new VPS'>
+<meta name=keywords content='VPS, checklist, Linux, Fedora, Debian, Linode, Server, Cloud'>
 
 #!
 ;;
@@ -82,11 +93,14 @@ esac
 <meta name=viewport content='width=device-width, initial-scale=1'>
 
 <link rel=stylesheet
-      href=/static/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' static/s.css | cut -d' ' -f1)>
+      href=/static/styles/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' static/s.css | cut -d' ' -f1)>
+<link rel=stylesheet href=/static/styles/gruvbox-dark-hard.min.css>
+<script src=/static/js/highlight.min.js></script>
+<script>hljs.highlightAll();</script>
 
-<link rel=apple-touch-icon sizes=180x180 href=/static/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/static/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/static/favicon-16x16.png>
+<link rel=apple-touch-icon sizes=180x180 href=/static/images/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/static/images/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/static/images/favicon-16x16.png>
 <link rel=manifest href=/site.webmanifest>
 
 </head>
