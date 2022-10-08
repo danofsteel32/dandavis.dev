@@ -1,10 +1,16 @@
+<title>Posts</title>
+<meta name=description content='Random thoughts and writings'>
+<meta name=keywords content='Blog, Posts'>
+<!-- ENDHEAD -->
   <h1>Posts</h1>
   <ul>
     <li><a href=/posts/industrial-machine-vision-lessons-learned>Industrial Machine Vision: Lessons Learned</a></li>
+    <li><a href=/posts/video-streaming-using-python-and-gstreamer.html>Video Streaming using Python and Gstreamer</a></li>
     <li><a href=/posts/building-aravis-on-fedora.html>Bulding Aravis on Fedora</a></li>
+    <li><a href=/posts/gstreamer-examples.html>GStreamer Examples</a></li>
     <li><a href=/posts/quart-htmx-sse.html>Quart, HTMX, and Server Sent Events</a></li>
     <li><a href=/posts/run-script-for-python-projects.html>run.sh for Python Projects</a></li>
-    <li><a href=/posts/new-vps-checklist.html>New VPS Checklist</a></li>
     <li><a href=/posts/my-827K-dog-image-dataset.html>My 827K Dog Image Dataset</a></li>
+    <li><a href=/posts/new-vps-checklist.html>New VPS Checklist</a></li>
     <li><a href=/posts/clifton-gorge-flooding.html>Clifton Gorge Flooding 2017-11-06</a></li>
   </ul>

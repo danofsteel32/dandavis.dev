@@ -1,82 +1,86 @@
-  <h1>New VPS Checklist</h1>
-  <p>I wrote this guide to have something to point to people who ask me about getting
-    their first VPS. For picking a VPS provider I've used:</p>
-  <ul>
-    <li><a href=https://www.linode.com>Linode</a></li>
-    <li><a href=https://www.digitalocean.com>Digital Ocean</a></li>
-    <li><a href=https://www.vultr.com>Vultr</a></li>
-  </ul>
-  <p>In my experience there's very little difference between them and I would pick
-    whichever one I could get the most free credits for. For picking a distro I would
-    recommend Fedora or Debian/Ubuntu.</p>
+<title>New VPS Checklist</title>
+<meta name=description content='A checklist for configuring a new VPS'>
+<meta name=keywords content='VPS, checklist, Linux, Fedora, Debian, Linode, Server, Cloud'>
+<!-- ENDHEAD -->
+<h1>New VPS Checklist</h1>
+<p>I wrote this guide to have something to point to people who ask me about getting
+  their first VPS. For picking a VPS provider I've used:</p>
+<ul>
+  <li><a href=https://www.linode.com>Linode</a></li>
+  <li><a href=https://www.digitalocean.com>Digital Ocean</a></li>
+  <li><a href=https://www.vultr.com>Vultr</a></li>
+</ul>
+<p>In my experience there's very little difference between them and I would pick
+  whichever one I could get the most free credits for. For picking a distro I would
+  recommend Fedora or Debian/Ubuntu.</p>
 
-  <h3>Checklist</h3>
-  <label>
-    <input type=checkbox /> Change root password
-  </label>
-  <pre>
-  <code class=language-bash>
+<h3>Checklist</h3>
+<label>
+  <input type=checkbox /> Change root password
+</label>
+<pre>
+<code class=language-bash>
 passwd
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Generate fresh sshd host keys
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Generate fresh sshd host keys
+</label>
+<pre>
+<code class=language-bash>
 ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' -b 4096
 ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' -b 521
 ssh-keygen -q -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Create admin user
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Create admin user
+</label>
+<pre>
+<code class=language-bash>
 adduser <your name>
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Add admin user to wheel group and uncomment in sudoers file
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Add admin user to wheel group and uncomment in sudoers file
+</label>
+<pre>
+<code class=language-bash>
 usermod -aG wheel <your name>
 visudo
 # uncomment this line (remove leading # if it's there)
 #%wheel  ALL=(ALL)       ALL
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <p>Now Login to the admin user</p>
-  <pre>
-  <code class=language-bash>
+<p>Now Login to the admin user</p>
+<pre>
+<code class=language-bash>
 su <your name>
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> SSH key added to admin's authorized_keys file
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> SSH key added to admin's authorized_keys file
+</label>
+<pre>
+<code class=language-bash>
 mkdir ~/.ssh && chmod 0700 ~/.ssh
 vi ~/.ssh/authorized_keys
 # paste in pub key (or use nano if you don't like vi)
 chmod 0600 ~/.ssh/authorized_keys
-  </code>
-  </pre>
+</code>
+</pre>
 
 
-  <label>
-    <input type=checkbox /> Disable root login and password logins via ssh
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Disable root login and password logins via ssh
+</label>
+<pre>
+<code class=language-bash>
 sudo vi /etc/ssh/sshd_config
 # change this line from
 PasswordAuthentication yes
@@ -87,49 +91,49 @@ PasswordAuthentication no
 PermitRootLogin prohibit-password
 # to
 PermitRootLogin no
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Set hostname
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Set hostname
+</label>
+<pre>
+<code class=language-bash>
 sudo hostnamectl hostname <new-hostname>
-  </code>
-  </pre>
+</code>
+</pre>
 
 
-  <label>
-    <input type=checkbox /> Setup firewall
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Setup firewall
+</label>
+<pre>
+<code class=language-bash>
 # if on Debian/Ubuntu install firewalld first
 sudo apt install firewalld
 
 sudo firewall-cmd --permanent --add-service {ssh,http,https}
 sudo firewall-cmd --reload
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Run system updates
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Run system updates
+</label>
+<pre>
+<code class=language-bash>
 # Fedora
 sudo dnf update
 # Debian
 sudo apt update && sudo apt upgrade
-  </code>
-  </pre>
+</code>
+</pre>
 
-  <label>
-    <input type=checkbox /> Reboot
-  </label>
-  <pre>
-  <code class=language-bash>
+<label>
+  <input type=checkbox /> Reboot
+</label>
+<pre>
+<code class=language-bash>
 sudo reboot
-  </code>
-  </pre>
+</code>
+</pre>

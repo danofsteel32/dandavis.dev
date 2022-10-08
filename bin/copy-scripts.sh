@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
-cp ~/.local/bin/get-htmx.sh ./scripts/
-cp ~/.local/bin/unsurroundify-videos.sh ./scripts/
-cp ~/.local/bin/mkpassword.sh ./scripts/
-cp ~/.local/bin/resize-images.sh ./scripts/
-cp ~/.local/bin/pyboilerplate.sh ./scripts/
-cp ~/.local/bin/find-ip.py ./scripts/
-# cp ~/.local/bin/vm_create.sh ./scripts/
+out=./scripts/
+local_bin="${HOME}/.local/bin"
+include=(
+    "record-webcam.sh"
+    "get-htmx.sh"
+    "unsurroundify-videos.sh"
+    "mkpassword.sh"
+    "resize-images"
+    "pyboilerplate.sh"
+    "find-ip.py"
+    "vm_create.sh"
+)
+
+for s in "${include[@]}"; do
+    cp "${local_bin}/${s}" "${out}"
+done

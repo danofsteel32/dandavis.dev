@@ -15,6 +15,10 @@ export LANG="${LANG:-en_US.UTF-8}"
 echo "Copying scripts to scripts/"
 ./bin/copy-scripts.sh
 
+echo "Copying resume"
+cp "${HOME}/resume/resume.html" .
+cp "${HOME}/resume/resume.pdf" static/
+
 if ! test -f "$src"/index.upphtml
 then
 	>&2 printf "no index.upphtml file found\\n"
