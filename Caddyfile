@@ -1,8 +1,8 @@
 localhost {
-    root * .
-    file_server
-    route {
-        # Allow viewing scripts in browser w/o download
-        header /scripts/* +Content-Type "text/plain; text/html"
-    }
+	root * .
+	file_server
+	route {
+		# Allow viewing scripts in browser w/o download
+		header /scripts/* +Content-Type "text/plain; text/html"
+	}
 }

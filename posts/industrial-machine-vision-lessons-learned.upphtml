@@ -1,4 +1,62 @@
 <title>Industrial Machine Vision: Lessons Learned</title>
 <meta name=description content='A retrospective on using machine vision in a manufacturing environment'>
-<meta name=keywords content='Computer Vision, ML, Industrial, Image, IoT, gstreamer, Python'>
+<meta name=keywords content='Computer Vision, ML, Industrial, Image, IoT, GStreamer, Python'>
 <!-- ENDHEAD -->
+
+<h1>Industrial Machine Vision: Lessons Learned</h1>
+<em>A small guide for those moving beyond webcams duct-taped to Raspberry Pis.</em>
+
+<p>While there's a lot of material out there about building software using things like webcams,
+IP security cameras, or raspi/arduino addon cameras. There's a lot less info about using dedicated
+<a href=https://www.edmundoptics.com/c/cameras/1012>machine vision cameras</a> in application.
+My goal with this post is to create the starting point I wish had when learning.
+I'm not going to cover specific computer vision techniques or machine learning.
+For that I would recommend <a href=https://szeliski.org/Book/>this textbook.</a>
+Rather I'm going to cover the more traditional engineering and deployment aspects like:</p>
+
+<ul>
+  <li>Choosing the right hardware (cameras, lenses, cables, networking)</li>
+  <li>Prototyping and debugging with the command line</li>
+  <li>Getting video frames into Python</li>
+  <li>Simultaneous live streaming and writing to disk</li>
+</ul>
+
+<h3>Machine Vision Camera Advantages</h3>
+<ul>
+  <li><strong>Global Shutter:</strong> Machine vision cameras have a global shutter while webcams, phones, and IP cameras have a rolling shutter.
+    Of course they're digital cameras so it's not a physical shutter but the difference is that with a global
+    shutter you're capturing the entire scene at a single instant in time while a rolling shutter scans the scene
+    from top to bottom or left to right. This means that with a rolling shutter different parts of the scene are
+    captured at different times which can cause blurriness and distortions.
+  </li>
+  <li><strong>Lens Selection:</strong> Whether your target is a few cm or a hundred meters away you can find
+    a lens tailored to your application.</li>
+  <li><strong>Reliability in harsh conditions</strong> such as industrial and manufacturing environments</li>
+  <li><strong>Multi-Camera Synchronization</strong></li>
+</ul>
+
+<h3>Selecting a Camera and Lens</h3>
+<p>You almost certainly want a camera that implements the
+<a href=https://www.emva.org/standards-technology/genicam/introduction-new/>GenICAM</a> protocol.
+GenICAM defines a common standard that most manufacturers implement and supports PoE (Power over Ethernet)
+and USB. It's way beyond the scope of this post to explain all of the factors that go into choosing a camera
+and lens to meet your specific goals.
+<a href=https://www.edmundoptics.in/knowledge-center/industry-expertise/imaging-optics/imaging-resource-guide/>This guide</a>
+is a good starting point.
+</p>
+
+<h3>Software</h3>
+<p>While the camera manufacturer usually has their own SDK for developing applications, I recommend
+using the [Aravis](https://github.com/AravisProject/aravis) library. It's open source,
+under very active developement, and supports all GigE and USB3 cameras that meet the GenICAM spec
+so you have the freedom to use cameras from different manufacturers with the same code.
+Aravis also has great [gstreamer](https://gstreamer.freedesktop.org/features/) support I've found is one
+of the easiest ways to construct complex video processing pipelines.
+</p>
+
+<h4>An Aside on Ethernet Cables</h4>
+If you decide to go with a GigE (PoE) camera you need to be careful about your cabling.
+Most ethernet cables made today are poor quality
+<a href=https://www.showmecables.com/blog/post/copper-clad-aluminum-vs-pure-copper-cables>copper clad aluminum (CCA)</a>
+and not even rated for PoE. I can tell you from first hand experience that using the wrong cables will be nothing but
+trouble. Spend the money for high quality solid copper cables!

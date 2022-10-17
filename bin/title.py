@@ -4,14 +4,12 @@ import sys
 
 
 path = sys.argv[1]
-filename = path.split("/")[1].split(".")[0]
-words = filename.split("-")
-
-out = []
-for word in words:
-    if word == word.upper():
-        out.append(word)
+with open(path, "r") as file:
+    for line in file:
+        if line == "<!-- ENDHEAD -->\n":
+            break
+        elif "<title>" in line:
+            print(line.strip().replace("<title>", "").replace("</title>", ""))
+            break
     else:
-        out.append(word.title())
-
-print(" ".join(out))
+        print("Untitled")

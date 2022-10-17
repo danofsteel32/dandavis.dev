@@ -7,7 +7,7 @@ include=(
     "get-htmx.sh"
     "unsurroundify-videos.sh"
     "mkpassword.sh"
-    "resize-images"
+    "resize-images.sh"
     "pyboilerplate.sh"
     "find-ip.py"
     "vm_create.sh"

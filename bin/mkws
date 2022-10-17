@@ -25,17 +25,9 @@ then
 	exit 1
 fi
 
-# echo "Making s.css"
+echo "Making s.css"
 # pp "$share"/s.uppcss "$1" > ./static/s.css
 cp "$share"/s.uppcss ./static/styles/s.css
-
-# t = template
-for t in "$src"/*.upphtml
-do
-	echo "Making $(basename "${t%.upphtml}".html)"
-	pp "$share"/l.upphtml "$t" "$1" > \
-		"$(basename "${t%.upphtml}".html)"
-done
 
 # pt = post template
 for pt in "$src"/posts/*.upphtml
@@ -45,6 +37,13 @@ do
 		"./posts/$(basename "${pt%.upphtml}".html)"
 done
 
+# t = template
+for t in "$src"/*.upphtml
+do
+	echo "Making $(basename "${t%.upphtml}".html)"
+	pp "$share"/l.upphtml "$t" "$1" > \
+		"$(basename "${t%.upphtml}".html)"
+done
 
 echo "Making sitemap.xml"
 pp "$share"/sitemap.uppxml "$1" > sitemap.xml

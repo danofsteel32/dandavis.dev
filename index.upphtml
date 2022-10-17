@@ -26,6 +26,10 @@
 <section>
   <h1>Projects</h1>
   <ul>
+    <li><a href=https://github.com/danofsteel32/gstreasy>gstreasy</a></li>
+    <p>Library that makes it easy to push and pull numpy ndarrays into and out
+      of <a href=https://gstreamer.freedesktop.org/>Gstreamer</a> pipelines.</p>
+
     <li><a href=https://github.com/danofsteel32/civ4save>civ4save</a></li>
     <p>A library and command line tool for parsing the save files of my favorite
       game <a href=https://civilization.com/civilization-4>Civilization IV</a>.
