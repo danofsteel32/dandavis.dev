@@ -2,57 +2,62 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url>
 	<loc>https://dandavis.dev/index.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/posts.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:01Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/resume.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:01Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/scripts.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:01Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://dandavis.dev/building-aravis-on-fedora.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<loc>https://dandavis.dev/aravis-and-gstreamer-on-fedora.html</loc>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/clifton-gorge-flooding.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/industrial-machine-vision-lessons-learned.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://dandavis.dev/introducing-gstreasy.html</loc>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/my-827K-dog-image-dataset.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/new-vps-checklist.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/quart-htmx-sse.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://dandavis.dev/run-script-for-python-projects.html</loc>
-	<lastmod>2022-10-17T16:31:15Z</lastmod>
+	<lastmod>2022-10-20T10:48:00Z</lastmod>
 	<priority>1.0</priority>
 </url>
 </urlset>

@@ -9,9 +9,9 @@
   <ul>
     <li>Linux</li>
     <li>Python</li>
-    <li>Golang</li>
     <li>SQL</li>
     <li>Shell</li>
+    <li>GStreamer</li>
     <li>Industrial/Manufacturing IoT</li>
     <li>Machine Vision (Especially for manufacturing applications)</li>
   </ul>
@@ -28,12 +28,13 @@
   <ul>
     <li><a href=https://github.com/danofsteel32/gstreasy>gstreasy</a></li>
     <p>Library that makes it easy to push and pull numpy ndarrays into and out
-      of <a href=https://gstreamer.freedesktop.org/>Gstreamer</a> pipelines.</p>
+      of <a href=https://gstreamer.freedesktop.org/>GStreamer</a> pipelines.
+      Available on PyPI: <code>python -m pip install gstreasy</code></p>
 
     <li><a href=https://github.com/danofsteel32/civ4save>civ4save</a></li>
     <p>A library and command line tool for parsing the save files of my favorite
       game <a href=https://civilization.com/civilization-4>Civilization IV</a>.
-      Available on PyPI! <code>python -m pip install civ4save</code></p>
+      Available on PyPI: <code>python -m pip install civ4save</code></p>
 
     <li><a href=https://github.com/danofsteel32/gingr>gingr</a>
       Unofficial API for <a href=https://www.gingrapp.com>gingrapp.com</a></li>

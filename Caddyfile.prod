@@ -1,0 +1,16 @@
+dandavis.dev {
+	root * /var/www/public
+    reverse_proxy /garage/* localhost:8081
+	file_server
+    encode gzip
+	route {
+		# Allow viewing scripts in browser w/o download
+		header /scripts/* +Content-Type "text/plain; text/html"
+	}
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 1gb
+            roll_keep 2
+            roll_keep_for 720h
+        }
+}

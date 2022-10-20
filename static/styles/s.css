@@ -33,14 +33,14 @@ OTHER DEALINGS IN THE SOFTWARE.
   --background: #333;
   --background-alt: #262626;
   --selection: #b8bb26;
-  --selected-text: #ebdbb2;
+  --selected-text: #282828;
   --text-main: #ebdbb2;
   --text-bright: #ebdbb2;
   --text-muted: #a9b1ba;
-  --links: #b8bb26;
+  --links: #458588;
   --focus: #0096bfab;
   --border: #526980;
-  --code: #b8bb26;
+  --code: #fabd2f;
   --animation-duration: 0.1s;
   --button-base: #0c151c;
   --button-hover: #040a0f;
@@ -624,7 +624,7 @@ code {
   background: var(--background);
   /* handled by highlight.js */
   /* color: #ffbe85; */
-  /* color: var(--code); */
+  color: var(--code);
   padding: 2.5px 5px;
   border-radius: 6px;
   font-size: 1em;
@@ -922,5 +922,5 @@ nav ul {
 nav ul li {
   display: inline;
   font-size: 2em;
-  margin-right: 4px;
+  margin-right: 1em;
 }

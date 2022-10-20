@@ -12,7 +12,7 @@
 <meta name=viewport content='width=device-width, initial-scale=1'>
 
 <link rel=stylesheet
-      href=/static/styles/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' static/s.css | cut -d' ' -f1)>
+      href=/static/styles/s.css?$(lmt -f '%Y-%m-%dT%H:%M:%SZ' ./static/styles/s.css | cut -d' ' -f1)>
 <link rel=stylesheet href=/static/styles/gruvbox-dark-hard.min.css>
 <script src=/static/js/highlight.min.js></script>
 <script>hljs.highlightAll();</script>

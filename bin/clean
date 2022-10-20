@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-
-find . -name '*.html' -exec rm -f {} +
-rm ./scripts/*
-rm ./static/resume.pdf

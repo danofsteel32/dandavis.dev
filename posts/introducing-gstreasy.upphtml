@@ -1,6 +1,29 @@
 <title>Introducing gstreasy</title>
-<meta name=description content='Showcase my new gstreasy library'>
+<meta name=description content='Announce my new gstreasy library'>
 <meta name=keywords content='gstreasy, GStreamer, Python, Library'>
 <!-- ENDHEAD -->
 <h1>Introducing gstreasy</h1>
-<p>What is it? Why did I make it? why would you use it?</p>
+<p><a href=https://github.com/danofsteel32/gstreasy>gstreasy</a> is
+a library I wrote to simplify using GStreamer with Python. It is heavily
+inspired by (I took some of the code)
+<a href=https://github.com/jackersson/gstreamer-python>gstreamer-python</a>
+. I was using the <code>gstreamer-python</code> library for a project
+but encountered a bug where a pipeline with a <code>filesink</code> element
+would fail to properly encode an mp4 files. I planned to
+just fork and fix it but once I looked though the code I saw a lot of dead
+code paths. <code>gstreamer-python</code> was also not available on PyPI
+and had to be installed from a github release tag which was suboptimal.</p>
+
+<h3>Features</h3>
+<ul>
+  <li><code>pip install gstreasy</code></li>
+  <li>Auto Caps detection</li>
+  <li>Auto configuration of appsink/appsrc elements</li>
+  <li>Support for appsink and appsrc in same pipeline</li>
+  <li>Optimistic caching shaves off 6 func calls per buffer</li>
+</ul>
+
+<h3>Future Plans</h3>
+<p>I'm planning on using this library to build a physical book cataloging
+system that applies OCR to a books front matter page to extract title, author,
+ISBN, pub date, etc.</p>
