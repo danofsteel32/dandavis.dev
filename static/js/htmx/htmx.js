@@ -71,7 +71,7 @@ return (function () {
             createWebSocket: function(url){
                 return new WebSocket(url, []);
             },
-            version: "1.8.0"
+            version: "1.8.4"
         };
 
         /** @type {import("./htmx").HtmxInternalApi} */
@@ -368,13 +368,14 @@ return (function () {
             return elemTop < window.innerHeight && elemBottom >= 0;
         }
 
-	function bodyContains(elt) {
-	    if (elt.getRootNode() instanceof ShadowRoot) {
-		return getDocument().body.contains(elt.getRootNode().host);
-	    } else {
-		return getDocument().body.contains(elt);
-	    }
-	}
+        function bodyContains(elt) {
+            // IE Fix
+            if (elt.getRootNode && elt.getRootNode() instanceof ShadowRoot) {
+                return getDocument().body.contains(elt.getRootNode().host);
+            } else {
+                return getDocument().body.contains(elt);
+            }
+        }
 
         function splitOnWhitespace(trigger) {
             return trigger.trim().split(/\s+/);
@@ -821,7 +822,29 @@ return (function () {
             }
         }
 
-        function cleanUpElement(element) {
+        // based on https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0,
+        // derived from Java's string hashcode implementation
+        function stringHash(string, hash) {
+            var char = 0;
+            while (char < string.length){
+                hash = (hash << 5) - hash + string.charCodeAt(char++) | 0; // bitwise or ensures we have a 32-bit int
+            }
+            return hash;
+        }
+
+        function attributeHash(elt) {
+            var hash = 0;
+            for (var i = 0; i < elt.attributes.length; i++) {
+                var attribute = elt.attributes[i];
+                if(attribute.value){ // only include attributes w/ actual values (empty is same as non-existent)
+                    hash = stringHash(attribute.name, hash);
+                    hash = stringHash(attribute.value, hash);
+                }
+            }
+            return hash;
+        }
+
+        function deInitNode(element) {
             var internalData = getInternalData(element);
             if (internalData.webSocket) {
                 internalData.webSocket.close();
@@ -829,16 +852,18 @@ return (function () {
             if (internalData.sseEventSource) {
                 internalData.sseEventSource.close();
             }
-
-            triggerEvent(element, "htmx:beforeCleanupElement")
-
             if (internalData.listenerInfos) {
-                forEach(internalData.listenerInfos, function(info) {
-                    if (element !== info.on) {
+                forEach(internalData.listenerInfos, function (info) {
+                    if (info.on) {
                         info.on.removeEventListener(info.trigger, info.listener);
                     }
                 });
             }
+        }
+
+        function cleanUpElement(element) {
+            triggerEvent(element, "htmx:beforeCleanupElement")
+            deInitNode(element);
             if (element.children) { // IE
                 forEach(element.children, function(child) { cleanUpElement(child) });
             }
@@ -1390,7 +1415,7 @@ return (function () {
             if (!hasAttribute(elt,'data-hx-revealed') && isScrolledIntoView(elt)) {
                 elt.setAttribute('data-hx-revealed', 'true');
                 var nodeData = getInternalData(elt);
-                if (nodeData.initialized) {
+                if (nodeData.initHash) {
                     triggerEvent(elt, 'revealed');
                 } else {
                     // if the node isn't initialized, wait for it before triggering the request
@@ -1724,7 +1749,7 @@ return (function () {
             if (elt.querySelectorAll) {
                 var boostedElts = hasChanceOfBeingBoosted() ? ", a, form" : "";
                 var results = elt.querySelectorAll(VERB_SELECTOR + boostedElts + ", [hx-sse], [data-hx-sse], [hx-ws]," +
-                    " [data-hx-ws], [hx-ext], [hx-data-ext]");
+                    " [data-hx-ws], [hx-ext], [data-hx-ext]");
                 return results;
             } else {
                 return [];
@@ -1756,8 +1781,13 @@ return (function () {
                 return;
             }
             var nodeData = getInternalData(elt);
-            if (!nodeData.initialized) {
-                nodeData.initialized = true;
+            if (nodeData.initHash !== attributeHash(elt)) {
+
+                nodeData.initHash = attributeHash(elt);
+
+                // clean up any previously processed info
+                deInitNode(elt);
+
                 triggerEvent(elt, "htmx:beforeProcessNode")
 
                 if (elt.value) {
@@ -1896,7 +1926,9 @@ return (function () {
                     break;
                 }
             }
-            historyCache.push({url:url, content: content, title:title, scroll:scroll})
+            var newHistoryItem = {url:url, content: content, title:title, scroll:scroll};
+            triggerEvent(getDocument().body, "htmx:historyItemCreated", {item:newHistoryItem, cache: historyCache})
+            historyCache.push(newHistoryItem)
             while (historyCache.length > htmx.config.historyCacheSize) {
                 historyCache.shift();
             }
@@ -1972,11 +2004,20 @@ return (function () {
                     fragment = fragment.querySelector('[hx-history-elt],[data-hx-history-elt]') || fragment;
                     var historyElement = getHistoryElement();
                     var settleInfo = makeSettleInfo(historyElement);
+                    var title = findTitle(this.response);
+                    if (title) {
+                        var titleElt = find("title");
+                        if (titleElt) {
+                            titleElt.innerHTML = title;
+                        } else {
+                            window.document.title = title;
+                        }
+                    }
                     // @ts-ignore
                     swapInnerHTML(historyElement, fragment, settleInfo)
                     settleImmediately(settleInfo.tasks);
                     currentPathForHistory = path;
-                    triggerEvent(getDocument().body, "htmx:historyRestore", {path:path});
+                    triggerEvent(getDocument().body, "htmx:historyRestore", {path: path, cacheMiss:true, serverResponse:this.response});
                 } else {
                     triggerErrorEvent(getDocument().body, "htmx:historyCacheMissLoadError", details);
                 }
@@ -1997,7 +2038,7 @@ return (function () {
                 document.title = cached.title;
                 window.scrollTo(0, cached.scroll);
                 currentPathForHistory = path;
-                triggerEvent(getDocument().body, "htmx:historyRestore", {path:path});
+                triggerEvent(getDocument().body, "htmx:historyRestore", {path:path, item:cached});
             } else {
                 if (htmx.config.refreshOnHistoryMiss) {
 
@@ -2015,6 +2056,8 @@ return (function () {
                 indicators = [elt];
             }
             forEach(indicators, function (ic) {
+                var internalData = getInternalData(ic);
+                internalData.requestCount = (internalData.requestCount || 0) + 1;
                 ic.classList["add"].call(ic.classList, htmx.config.requestClass);
             });
             return indicators;
@@ -2022,7 +2065,11 @@ return (function () {
 
         function removeRequestIndicatorClasses(indicators) {
             forEach(indicators, function (ic) {
-                ic.classList["remove"].call(ic.classList, htmx.config.requestClass);
+                var internalData = getInternalData(ic);
+                internalData.requestCount = (internalData.requestCount || 0) - 1;
+                if (internalData.requestCount === 0) {
+                    ic.classList["remove"].call(ic.classList, htmx.config.requestClass);
+                }
             });
         }
 
@@ -2126,7 +2173,8 @@ return (function () {
             var internalData = getInternalData(elt);
 
             // only validate when form is directly submitted and novalidate or formnovalidate are not set
-            var validate = matches(elt, 'form') && elt.noValidate !== true;
+            // or if the element has an explicit hx-validate="true" on it
+            var validate = (matches(elt, 'form') && elt.noValidate !== true) || getAttributeValue(elt, "hx-validate") === "true";
             if (internalData.lastButtonClicked) {
                 validate = validate && internalData.lastButtonClicked.formNoValidate !== true;
             }
@@ -2418,6 +2466,9 @@ return (function () {
             if (attributeValue) {
                 var str = attributeValue.trim();
                 var evaluateValue = evalAsDefault;
+                if (str === "unset") {
+                    return null;
+                }
                 if (str.indexOf("javascript:") === 0) {
                     str = str.substr(11);
                     evaluateValue = true;
@@ -2543,7 +2594,7 @@ return (function () {
             return arr;
         }
 
-        function issueAjaxRequest(verb, path, elt, event, etc) {
+        function issueAjaxRequest(verb, path, elt, event, etc, confirmed) {
             var resolve = null;
             var reject = null;
             etc = etc != null ? etc : {};
@@ -2565,6 +2616,17 @@ return (function () {
             if (target == null || target == DUMMY_ELT) {
                 triggerErrorEvent(elt, 'htmx:targetError', {target: getAttributeValue(elt, "hx-target")});
                 return;
+            }
+
+            // allow event-based confirmation w/ a callback
+            if (!confirmed) {
+                var issueRequest = function() {
+                    return issueAjaxRequest(verb, path, elt, event, etc, true);
+                }
+                var confirmDetails = {target: target, elt: elt, path: path, verb: verb, triggeringEvent: event, etc: etc, issueRequest: issueRequest};
+                if (triggerEvent(elt, 'htmx:confirm', confirmDetails) === false) {
+                    return;
+                }
             }
 
             var syncElt = elt;
@@ -2695,7 +2757,9 @@ return (function () {
 
             var requestAttrValues = getValuesForElement(elt, 'hx-request');
 
+            var eltIsBoosted = getInternalData(elt).boosted;
             var requestConfig = {
+                boosted: eltIsBoosted,
                 parameters: filteredParameters,
                 unfilteredParameters: allParameters,
                 headers:headers,
@@ -2768,7 +2832,7 @@ return (function () {
             }
 
             var responseInfo = {
-                xhr: xhr, target: target, requestConfig: requestConfig, etc: etc,
+                xhr: xhr, target: target, requestConfig: requestConfig, etc: etc, boosted: eltIsBoosted,
                 pathInfo: {
                     requestPath: path,
                     finalRequestPath: finalPathForGet || path,
@@ -2953,7 +3017,7 @@ return (function () {
                     redirectPath = swapSpec['path'];
                     delete swapSpec['path'];
                 }
-                ajaxHelper('GET', redirectPath, swapSpec).then(() =>{
+                ajaxHelper('GET', redirectPath, swapSpec).then(function(){
                     pushUrlIntoHistory(redirectPath);
                 });
                 return;
@@ -3132,7 +3196,7 @@ return (function () {
                 }
             }
             if (isError) {
-                triggerErrorEvent(elt, 'htmx:responseError', mergeObjects({error: "Response Status Error Code " + xhr.status + " from " + responseInfo.pathInfo.path}, responseInfo));
+                triggerErrorEvent(elt, 'htmx:responseError', mergeObjects({error: "Response Status Error Code " + xhr.status + " from " + responseInfo.pathInfo.requestPath}, responseInfo));
             }
         }
 
@@ -3293,4 +3357,3 @@ return (function () {
     }
 )()
 }));
-

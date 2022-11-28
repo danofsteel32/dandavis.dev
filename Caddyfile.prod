@@ -1,6 +1,7 @@
 dandavis.dev {
 	root * /var/www/public
     reverse_proxy /garage/* localhost:8081
+    reverse_proxy /timeclock/* localhost:8082
 	file_server
     encode gzip
 	route {
