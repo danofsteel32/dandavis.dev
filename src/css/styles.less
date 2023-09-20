@@ -1,0 +1,167 @@
+/* Try's to follow CUBE CSS design philosophy */
+
+@import "reset.css"; // build off of modern reset
+
+// Global Styles
+@font-face {
+  font-family: 'BerkeleyMono'; // sick font bro
+  src: url('/fonts/BerkeleyMonoVariable-Regular.woff2') format('woff2');
+  // font-weight:100 150;
+  font-style:normal;
+  font-weight: 110, 150;
+}
+
+@colors: {
+  light: #FCFAF9;
+  medium: #546D64;
+  dark: #222222;
+};
+
+@sizes: {
+  sm: .8rem;
+  md: 1rem;
+  l: 1.33rem;
+  xl: 1.77rem;
+  xxl: 2.4rem;
+  wombo: 4rem;
+}
+
+body {
+  font-family: 'BerkeleyMono', Arial, Helvetica, sans-serif;;
+  font-weight: 110;
+  line-height: 1.5;
+  display: grid;
+  // Assumes always header, main, footer
+  grid-template-rows: auto 1fr auto;
+}
+
+a {
+  color: currentColor;
+}
+
+a:focus,
+a:hover {
+    text-decoration: none;
+}
+
+a:visited {
+  color: @colors[medium];
+}
+
+h1,h2,h3 {
+  line-height: 1.2;
+  font-weight: 150;
+}
+
+h1 {
+  font-size: @sizes[xxl];
+}
+
+h2 {
+  font-size: @sizes[xl];
+}
+
+h3 {
+  font-size: @sizes[l];
+}
+
+nav ul {
+  list-style: none;
+}
+
+blockquote {
+  margin: 0;
+}
+
+blockquote p {
+  padding: 15px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+:focus {
+  outline: 2px dotted;
+  outline-offset: 0.25rem;
+}
+
+/* Composition Layer */
+.wrapper {
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 @sizes[l];
+}
+
+.flow > * + * {
+  margin-top: var(--flow-space, 1rem);
+}
+
+.radius {
+  border-radius: 0.5rem;
+}
+
+/* Utility Layer */
+
+.bg-light {
+  background-color: @colors[light];
+}
+
+.fg-light {
+  color: @colors[light];
+}
+
+.bg-dark {
+  background-color: @colors[dark];
+}
+
+.bg-medium {
+  background-color: @colors[medium];
+}
+
+.no-list-style {
+  list-style: none;
+}
+
+
+/* Block Layer */
+.site-header {
+  padding: 0.8rem 0;
+  margin-bottom: var(--flow-space, 1rem);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    nav > ul > li {
+      display: flex;
+      gap: 20px;
+    }
+
+    a {
+      font-size: @sizes[xl];
+      font-weight: 150;
+      color: currentColor;
+      outline: none;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    };
+
+  }
+
+  // Right margin prevents any collisions with the title
+  h1 {
+    margin: 0.5rem 1rem 0.5rem 0;
+    font-size: @sizes[xxl];
+  }
+
+}
+
+.post-listing {
+  display: flex;
+  gap: 10px;
+}
+/* Exception Layer */

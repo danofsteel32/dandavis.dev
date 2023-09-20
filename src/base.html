@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Dan Davis"/>
+    <!-- Per page meta tags -->
+    {% block meta %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <!-- TODO custom favicon -->
+    <link rel="canonical" href="https://dandavis.dev.com/" />
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/styles.css" />
+    {% block style %}{% endblock %}
+  </head>
+
+  <body class="bg-light">
+    <header role="banner" class="[ site-header ] [ bg-dark ]">
+      <div class="wrapper">
+        <div class="[ site-header__inner ] [ fg-light ]">
+            <h1 class="site-name">dandavis.dev</h1>
+            <!-- Nav -->
+            <nav>
+              <ul>
+                <li>
+                  <a href="/">Home</a>
+                  <a href="/posts">Posts</a>
+                  <a href="/hire.html">Hire</a>
+                </li>
+              </ul>
+            </nav>
+            <!-- ./ Nav -->
+            {# <img src="/img/bobo-bath.webp" alt="my doggo wearing a shower cap" width="150", height="150"> #}
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    {% block content %}{% endblock %}
+    <!-- ./Main -->
+
+    <!-- Footer -->
+    <footer class="wrapper">
+      <small>Copyright Dan Davis 2023</small>
+    </footer>
+    <!-- ./ Footer -->
+
+  </body>
+</html>

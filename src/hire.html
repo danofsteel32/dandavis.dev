@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block meta %}
+  <meta
+    name="description"
+    content="Available for contract python and web work"
+  />
+  <meta name="date" content="2023-09-15"/>
+  <meta name="last_updated" content="2023-09-15">
+{% endblock %}
+{% block title %}Hire{% endblock %}
+{% block content %}
+<main>
+  <article class="wrapper flow">
+    <h2>Hire Me</h2> 
+    <p>I will rent my brain to you as a contractor or consultant.
+       My deliverables are git repos, distro packages (deb, rpm), or containers (docker, podman).
+       If you don't know what those are I'm probably not a good fit for you.
+    </p>
+    <h3>Skills</h3>
+    <p>You should only hire me for things I'm good at:</p>
+    <ul>
+      <li><strong>Architecture/Design</strong></li>
+      <p>Data/schema modeling, distributed systems, project structure, computer vision systems</p>
+
+      <li><strong>Linux System Administration</strong></li>
+      <p>The real McCoy. Not copy/paste 'DevOps' and 50 different cloud services.
+         If you have physical servers or want a simple VPS based system I'm your guy.</p>
+
+      <li><strong>Web Programming</strong></li>
+      <p>Python (Django, Flask, FastAPI) or golang based web apps with a speciality in custom dashboards.</p>
+
+      <li><strong>Python Packaging/Deployment</strong></li>
+      <p>Deploying python packages can be a pain in the ass. I can help.</p>
+
+      <li><strong>Reverse Engineering</strong></li>
+      <p>I can help you scrape just about any website or even build an unofficial API client to
+         integrate with a SASS app that doesn't want to integrate with you.
+         I also have experience parsing poorly documented binary formats.
+      </p>
+    </ul>
+    <h3>My Public Work</h3>
+      <ul>
+        <li><a href="https://github.com/danofsteel32/gingrwrapp">gingrwrapp</a></li>
+        <p>
+          Unofficial API client for SASS app <a href="https://www.gingrapp.com/">Gingrapp</a>.
+        </p>
+        <li><a href="https://github.com/danofsteel32/gstreasy">gstreasy</a></li>
+        <p>
+          The simplest way to work with
+          <a href="https://gstreamer.freedesktop.org/features/index.html">gstreamer</a>
+          in python. Available on PyPI.
+        </p>
+        <li><a href="https://github.com/danofsteel32/civ4save">civ4save</a></li>
+        <p>Parses the binary format of Civilization IV save files. Available on PyPI.</p>
+      </ul>
+    <h3>Contact</h3>
+    <p><a href="mailto:dan@dandavis.dev">Email</a></p>
+    <p><a href="https://github.com/danofsteel32">Github</a></a>
+  </article> 
+</main>
+{% endblock %}

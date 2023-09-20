@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block meta %}
+    <meta
+      name="description"
+      content="Index of all posts"
+    />
+{% endblock %}
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+<main>
+  <section class="wrapper flow">
+    <h2>Posts</h2>
+
+    {% for post in posts %}
+      <article class="post-listing">
+        <p>- <a href="/posts/{{ post.slug }}.html">{{ post.title }}</a></p>
+        <p>({{ post.date }})</p>
+      </article>
+    {% endfor %}
+
+  </section>
+
+</main>
+{% endblock %}

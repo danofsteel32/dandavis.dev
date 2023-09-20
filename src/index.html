@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block meta %}
+    <meta
+      name="description"
+      content="The art of taste and style"
+    />
+{% endblock %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<main class="flow">
+  <section class="wrapper">
+    <h2>Scratchpad</h2>
+    <p><a href="/scratchpad.html">Notes and thoughts that don't have a post</a></p>
+  </section>
+  <section class="wrapper">
+    <h2>Recent Posts</h2>
+    {% for post in posts %}
+      <article class="post-listing">
+        <p>- <a href="/posts/{{ post.slug }}.html">{{ post.title }}</a></p>
+        <p>({{ post.date }})</p>
+      </article>
+    {% endfor %}
+  </section>
+  <section class="wrapper">
+    <h2>Hire Me</h2>
+    <p>I do contract software development work. See
+      <a href="/hire.html">here</a> for more information.
+    </p>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,11 @@
+{ 
+    "extends": ["stylelint-config-standard"],
+    "plugins": ["stylelint-less"],
+    "rules": {
+      "at-rule-no-unknown": null,
+      "color-no-invalid-hex": true,
+      "less/color-no-invalid-hex": true,
+      "less/color-hex-case": "upper",
+      "less/no-duplicate-variables": true
+    }
+}
