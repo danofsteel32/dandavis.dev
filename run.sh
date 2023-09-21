@@ -74,7 +74,6 @@ build() {
     # build style sheet
     ./node_modules/less/bin/lessc src/css/styles.less > site/css/styles.css
     # copy css, fonts, imgs, js
-    rsync -azP src/img/ site/img/
     rsync -azP src/js/ site/js/
     rsync -azP src/css/*.css site/css
     rsync -azP src/fonts/ site/fonts
