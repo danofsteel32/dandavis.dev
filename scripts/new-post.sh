@@ -26,5 +26,5 @@ read -r -d '' POST << EOM
 {% endblock %}
 EOM
 
-echo "$title"
+echo "NEW POST: $title"
 echo "$POST" > src/posts/"$slug".html

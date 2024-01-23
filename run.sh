@@ -114,6 +114,17 @@ new-post() {
     ./scripts/new-post.sh "$@"
 }
 
+deploy() {
+    # copy files to server, delete whats not in site/ anymore, set appropiate perms
+    rsync --recursive \
+        --progress \
+        --compress \
+        --delete \
+        --perms \
+        --chmod=Du=rwx,Dg=rwx,Do=rx,Fu=rw,Fg=r,Fo=r \
+        site/ root@dandavis.dev:/var/www/html
+}
+
 default() {
     build
     wrapped-python server.py 
